@@ -1,15 +1,12 @@
 def checkio(number):
     res = []
     for i in range(9, 1, -1):
-        if not number % i:
+        while not number % i:
             res.append(i)
             number /= i
-    print(res)
-    if not res:
+    if not res or number > 1:
         return 0
-    join = ''.join(map(str, sorted(res)))
-    print(join)
-    return int(join)
+    return int(''.join(map(str, sorted(res))))
 
 
 if __name__ == '__main__':
