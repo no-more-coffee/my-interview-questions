@@ -4,12 +4,7 @@ def solve_triangle(data):
 
 
 def checkio(data):
-    l = len(data)
-    d = [[data[(i + 2 * j) % l] for i in range(3)] for j in range(l - 2)]
-    print(d)
-    f = sum(solve_triangle(i) for i in d)
-    print(f)
-    return f
+    return sum(solve_triangle([data[i] for i in [0, 1 + j, 2 + j]]) for j in range(len(data) - 2))
 
 
 if __name__ == '__main__':
