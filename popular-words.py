@@ -1,6 +1,8 @@
+import re
+
+
 def popular_words(text, words):
-    # your code here
-    return None
+    return {w: len(re.compile(r'\b{}\b'.format(w)).findall(text.lower())) for w in words}
 
 
 if __name__ == '__main__':
