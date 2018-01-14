@@ -5,7 +5,7 @@ def find_same_elements(m: iter):
     count = 1
     for row in m:
         for j in range(1, len(row)):
-            if row[j] == None:
+            if row[j] is None:
                 continue
             if row[j] == row[j - 1]:
                 count += 1
