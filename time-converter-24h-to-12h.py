@@ -3,8 +3,8 @@ from datetime import datetime
 
 def time_converter(time_str):
     time = datetime.strptime(time_str, '%H:%M')
-    converted = f'{time:%I:%M %p}'
-    formatted = converted.lstrip("0").lower().replace('m', '.m.')
+    converted = f'{time:%-I:%M %p}'
+    formatted = converted.lower().replace('m', '.m.')
     return formatted
 
 
