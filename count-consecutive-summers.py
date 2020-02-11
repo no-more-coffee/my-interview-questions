@@ -1,7 +1,14 @@
 def count_consecutive_summers(num):
-    for i in range(2000):
-        pass
-    return None
+    summers = 0
+    for i in range(1, num + 1):
+        for j in range(num):
+            s = int((i * 2 + j) / 2 * (j + 1))
+            if s == num:
+                summers += 1
+                break
+            if s > num:
+                break
+    return summers
 
 
 if __name__ == '__main__':
