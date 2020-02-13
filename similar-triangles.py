@@ -3,20 +3,21 @@ from typing import List, Tuple
 Coords = List[Tuple[int, int]]
 
 
+def get_side_square(x1, y1, x2, y2):
+    return (x2 - x1) ** 2 + (y2 - y1) ** 2
+
+
+def get_side_squares(coords):
+    return sorted(
+        get_side_square(*coords[i - 1], *coords[i])
+        for i
+        in range(len(coords))
+    )
+
+
 def similar_triangles(coords_1: Coords, coords_2: Coords) -> bool:
-    la1, lb1, lc1 = get_sides(*coords_1)
-    la2, lb2, lc2 = get_sides(*coords_2)
-    return la1/la2 == lb1/lb2 == lc1/lc2
-
-
-def get_sides(a, b, c):
-    xa, ya = a
-    xb, yb = b
-    xc, yc = c
-    la = (xb - xa) ** 2 + (yb - ya) ** 2
-    lb = (xc - xb) ** 2 + (yc - yb) ** 2
-    lc = (xa - xc) ** 2 + (ya - yc) ** 2
-    return sorted((la, lb, lc))
+    pa, pb, pc = (l1 / l2 for l1, l2 in zip(get_side_squares(coords_1), get_side_squares(coords_2)))
+    return pa == pb == pc
 
 
 if __name__ == '__main__':
