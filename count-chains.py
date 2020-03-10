@@ -1,34 +1,33 @@
 from typing import List, Tuple
 
 
-def has_intersection(c1, c2):
+def has_intersection(c1: tuple, c2: tuple) -> bool:
     x1, y1, rad1 = c1
     x2, y2, rad2 = c2
     distance = (x1 - x2) ** 2 + (y1 - y2) ** 2
     return (rad1 + rad2) ** 2 > distance > (rad1 - rad2) ** 2
 
 
+def has_group_intersection(c1: tuple, group: set) -> bool:
+    for c2 in group:
+        if has_intersection(c1, c2):
+            return True
+    return False
+
+
 def count_chains(circles: List[Tuple[int, int, int]]) -> int:
     groups = []
-    for i, c1 in enumerate(circles):
-        group1 = {c1}
-        for c2 in circles[i + 1:]:
-            if has_intersection(c1, c2):
-                group1.add(c2)
-        groups.append(group1)
-
-    result = []
-    for g1 in groups:
-        new_result = []
-        for g2 in result:
-            if g1 & g2:
-                g1 |= g2
+    for c in circles:
+        new_group = {c}
+        new_groups = [new_group]
+        for group in groups:
+            if has_group_intersection(c, group):
+                new_group |= group
             else:
-                new_result.append(g2)
-        new_result.append(g1)
-        result = new_result
-    print(groups, result)
-    return len(result)
+                new_groups.append(group)
+        groups = new_groups
+
+    return len(groups)
 
 
 if __name__ == '__main__':
