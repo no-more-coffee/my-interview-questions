@@ -1,26 +1,6 @@
 from typing import Tuple, List, Iterable
 
 
-def intersection(x1, x2, l1, l2) -> int:
-    return min(x1 + l1, x2 + l2) - max(x1, x2)
-
-
-def get_intersections(c1: Tuple[int, int, int, int], c2: Tuple[int, int, int, int]):
-    return [intersection(c1[i], c2[i], c1[3], c2[3]) for i in range(3)]
-
-
-def has_intersects(intersections):
-    return len(tuple(a for a in intersections if a < 0)) == 0 and len(tuple(a for a in intersections if a == 0)) <= 1
-
-
-def get_dots(cube: Tuple[int, int, int, int]):
-    x, y, z, l = cube
-    for x1 in range(x, x + l):
-        for y1 in range(y, y + l):
-            for z1 in range(z, z + l):
-                yield x1, y1, z1
-
-
 def fused_cubes(cubes: List[Tuple[int, int, int, int]]) -> Iterable[int]:
     groups = []
     for c in cubes:
@@ -37,13 +17,30 @@ def fused_cubes(cubes: List[Tuple[int, int, int, int]]) -> Iterable[int]:
         yield get_area(g)
 
 
-def get_group_dots(group):
-    for c in group:
-        yield from get_dots(c)
+def has_intersects(intersections):
+    return len(tuple(a for a in intersections if a < 0)) == 0 and len(tuple(a for a in intersections if a == 0)) <= 1
+
+
+def get_intersections(c1: Tuple[int, int, int, int], c2: Tuple[int, int, int, int]):
+    return [intersection(c1[i], c2[i], c1[3], c2[3]) for i in range(3)]
+
+
+def intersection(x1, x2, l1, l2) -> int:
+    return min(x1 + l1, x2 + l2) - max(x1, x2)
 
 
 def get_area(group):
-    return len(set(get_group_dots(group)))
+    return len(get_group_dots(group))
+
+
+def get_group_dots(group):
+    return set(
+        (x1, y1, z1)
+        for x, y, z, l in group
+        for x1 in range(x, x + l)
+        for y1 in range(y, y + l)
+        for z1 in range(z, z + l)
+    )
 
 
 def assert1(r, r1, message):
