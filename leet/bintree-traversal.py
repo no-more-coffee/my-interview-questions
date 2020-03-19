@@ -1,4 +1,5 @@
 # Definition for a binary tree node.
+from collections import deque
 from typing import List
 
 
@@ -10,12 +11,16 @@ class TreeNode:
 
 
 def yieldValues(node: TreeNode):
-    if not node:
-        return
+    stack = deque((node,))
 
-    yield node.val
-    yield from yieldValues(node.left)
-    yield from yieldValues(node.right)
+    while stack:
+        node = stack.pop()
+        if not node:
+            continue
+
+        yield node.val
+        stack.append(node.right)
+        stack.append(node.left)
 
 
 class Solution:
