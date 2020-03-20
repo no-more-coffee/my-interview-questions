@@ -10,18 +10,17 @@ class TreeNode:
         self.right = None
 
 
-def yieldValues(node: TreeNode):
-    stack = deque(())
-
-    while stack or node:
-        while node:
-            stack.append(node)
-            node = node.left
-        node = stack.pop()
-        yield node.val
-        node = node.right
-
-
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        return list(yieldValues(root))
+        res = []
+        stack = deque(())
+        node = root
+
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right
+        return res
