@@ -36,26 +36,26 @@ class Codec:
             return None
 
         val_syms = ''
-        queue = deque((TreeNode(None),))
+        node = TreeNode(None)
+        queue = deque(())
         for t in data:
             if t == '|':
-                queue.pop()
+                node = queue.pop()
             elif t == '<':
-                node = queue[-1]
+                queue.append(node)
                 node.left = TreeNode(None)
-                queue.append(node.left)
+                node = node.left
             elif t == '>':
-                node = queue[-1]
+                queue.append(node)
                 node.right = TreeNode(None)
-                queue.append(node.right)
+                node = node.right
             elif t == ',':
-                node = queue[-1]
                 node.val = int(val_syms)
                 val_syms = ''
             else:
                 val_syms += t
 
-        return queue.pop()
+        return node
 
 
 def run(root):
