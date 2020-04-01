@@ -26,31 +26,41 @@ class Codec:
         return ''.join(do(root))
 
     def deserialize(self, data):
-        def undo(d, node):
-            while d:
-                if d[0] == '|':
-                    return d[1:]
+        # actions = {
+        #     '|': None,
+        #     '<': None,
+        #     '>': None,
+        # }
 
-                if d[0] == '<':
+        def undo(node, start=0):
+            while start < finish:
+                if data[start] == '|':
+                    return start + 1
+
+                if data[start] == '<':
                     node.left = TreeNode(None)
-                    d = undo(d[1:], node.left)
+                    start = undo(node.left, start + 1)
                     continue
 
-                if d[0] == '>':
+                if data[start] == '>':
                     node.right = TreeNode(None)
-                    d = undo(d[1:], node.right)
+                    start = undo(node.right, start + 1)
                     continue
 
-                end = d.index(',')
-                val = eval(d[:end])
+                end = start
+                while data[end] != ',':
+                    end += 1
+
+                val = int(data[start:end])
                 node.val = val
-                d = d[end + 1:]
+                start = end + 1
 
         if not data:
             return None
 
+        finish = len(data)
         root = TreeNode(None)
-        undo(data, root)
+        undo(root)
         return root
 
 
