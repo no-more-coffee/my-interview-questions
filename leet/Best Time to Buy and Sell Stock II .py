@@ -3,20 +3,10 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        groups = []
-        current_group_min_i = 0
-        current_group_max_i = 0
-        for i in range(1, len(prices)):
-            if prices[i] > prices[i - 1]:
-                current_group_max_i = i
-            elif prices[i] < prices[i - 1]:
-                groups.append((current_group_min_i, current_group_max_i))
-                current_group_min_i = i
-                current_group_max_i = i
-                continue
-            if i == len(prices) - 1:
-                groups.append((current_group_min_i, current_group_max_i))
-        return sum(prices[y] - prices[x] for x, y in groups)
+        return sum(
+            max(0, prices[i] - prices[i - 1])
+            for i in range(1, len(prices))
+        )
 
 
 print(Solution().maxProfit([7, 1, 5, 3, 6, 4]), 7)
