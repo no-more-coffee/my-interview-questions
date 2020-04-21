@@ -4,17 +4,17 @@ from typing import List
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
         max_len = 0
-        temp = [0] * len(nums)
+        v = 0
+        m = {0: -1}
         for i in range(len(nums)):
-            if nums[i] == 0:
-                temp[i] -= 1
+            v = v + 1 if nums[i] else v - 1
+            if v in m:
+                max_len = max(max_len, i - m[v])
             else:
-                temp[i] += 1
-            if temp[i] == 0:
-                max_len = max(max_len, )
+                m[v] = i
         return max_len
 
 
 print(Solution().findMaxLength([0, 1]), 2)
 print(Solution().findMaxLength([0, 1, 0]), 2)
-print(Solution().findMaxLength([0, 0, 1, 1, 1, 0, 0]), 2)
+print(Solution().findMaxLength([0, 0, 1, 1, 1, 0, 0]), 6)
